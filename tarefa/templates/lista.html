@@ -1,0 +1,53 @@
+{% extends './model.html' %}
+{% load bootstrap%}
+{% block content%}
+{% block estilo%}
+<style>
+    body{
+        background-color: rgb(243, 203, 154);
+    }
+    .card{
+        box-shadow: 10px 10px 10px;
+    }
+    .card-text{
+        font-size: 20px;
+    }
+
+
+
+</style>
+
+
+
+
+{% endblock %}
+<div class='container'>
+
+<h1 class="text-center">To Do App Django</h1>
+<form  method="post"> {% csrf_token %}
+
+    {{form.conteudo|bootstrap}}
+    <button class='btn btn-success' type="submit"> Enviar </button>
+</form>
+
+{% for conteudo in conteudos%}
+<div class='card mt-5'>
+    <h6 class='card-header'> Tarefa | {{conteudo.data}} </h6>
+    <div class='card-body'>
+        <p class='card-text'> {{conteudo.conteudo}}</p>
+<div class='card-footer'>
+    <form action="../tarefas/delete/{{conteudo.id}}" method="post">{% csrf_token %}
+            <button class='btn btn-danger ' type="submit"> DELETE</button>   
+              <a  class='btn btn-info'href="../tarefas/editar/{{conteudo.id}}" role="button"> Editar </a>
+            
+    </div>
+</form>
+{% if conteudo.completado ==    True %}
+<strong> A TAREFA FOI COMPLETADA </strong>
+{% endif%}
+</div>
+</div>
+
+
+{% endfor %}
+{% endblock%}
